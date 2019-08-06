@@ -145,11 +145,7 @@ namespace ChessGame
             {
                 boardMatrix[possition.i, possition.j] = (int)DataStructure.figures.white_queen;
             }
-            if (true)
-            {
-                //TODO odstranit typka z boardu ( freeie)
-
-            }
+            
             freebie.i = -2;
             freebie.j = -2;
         }
@@ -160,6 +156,18 @@ namespace ChessGame
             {
                 freebie = current;
             }
+        }
+
+        public static void KickingOutFreebie(DataStructure.point prev, DataStructure.point current, int[,] boardMatrix, int color)
+        {
+           if (current.j == freebie.j && prev.j != current.j)
+           {
+                if (current.i != freebie.i)
+                {
+                    boardMatrix[freebie.i, freebie.j] = (int)DataStructure.figures.empty;
+                }
+               
+           }
         }
     }
 }

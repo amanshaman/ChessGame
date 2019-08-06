@@ -10,6 +10,8 @@ namespace ChessGame
 {
     class BoardController
     {
+        private int player = (int)DataStructure.color.white;
+
         protected static List<DataStructure.point> possiblePossitions;
 
         protected Dictionary<string, DataStructure.point> myCollection;
@@ -209,8 +211,6 @@ namespace ChessGame
                 Console.WriteLine(e.ToString());
             }
         }
-
-        
         
         private void PictureClick(object sender, EventArgs e)
         {
@@ -228,55 +228,75 @@ namespace ChessGame
         {
             if (!pickedFlag)
             {
-                pickedPiece.i = myCollection[oBox.Name].i;
-                pickedPiece.j = myCollection[oBox.Name].j;
-                pickedFlag = true;
-
-                switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
+                if (player == (int)DataStructure.color.white)
                 {
-                    case (int)figures.white_pawn:
-                        possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.black_pawn:
-                        possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.white_rock:
-                        possiblePossitions = Rock.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.black_rock:
-                        possiblePossitions = Rock.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.white_knight:
-                        possiblePossitions = Knight.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.black_knight:
-                        possiblePossitions = Knight.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.white_bishop:
-                        possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.black_bishop:
-                        possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.white_queen:
-                        possiblePossitions = Queen.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.black_queen:
-                        possiblePossitions = Queen.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.white_king:
-                        possiblePossitions = King.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
-                        break;
-                    case (int)figures.black_king:
-                        possiblePossitions = King.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
-                        break;
+                    pickedPiece.i = myCollection[oBox.Name].i;
+                    pickedPiece.j = myCollection[oBox.Name].j;
+                    if (Validation.FigureColor(pickedPiece, boardMatrix) == DataStructure.color.white)
+                    {
+                        pickedFlag = true;
 
-                    default:
-                        break;
+                        switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
+                        {
+                            case (int)figures.white_pawn:
+                                possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                break;                           
+                            case (int)figures.white_rock:
+                                possiblePossitions = Rock.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.white_knight:
+                                possiblePossitions = Knight.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.white_bishop:
+                                possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.white_queen:
+                                possiblePossitions = Queen.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.white_king:
+                                possiblePossitions = King.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                break;
+                            default:
+                                break;
+                        }
+                        DrawBackground();
+                        HighligtSelectedPiece(oBox);
+                    }
                 }
-
-                DrawBackground();
-                HighligtSelectedPiece(oBox);
+                else
+                {
+                    pickedPiece.i = myCollection[oBox.Name].i;
+                    pickedPiece.j = myCollection[oBox.Name].j;
+                    if (Validation.FigureColor(pickedPiece, boardMatrix) == DataStructure.color.black)
+                    {
+                        pickedFlag = true;
+                        switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
+                        {
+                            case (int)figures.black_pawn:
+                                possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.black_rock:
+                                possiblePossitions = Rock.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.black_knight:
+                                possiblePossitions = Knight.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.black_bishop:
+                                possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.black_queen:
+                                possiblePossitions = Queen.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                break;
+                            case (int)figures.black_king:
+                                possiblePossitions = King.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                break;
+                            default:
+                                break;
+                        }
+                        DrawBackground();
+                        HighligtSelectedPiece(oBox);
+                    }
+                }
             }
             else
             {
@@ -286,22 +306,64 @@ namespace ChessGame
                     pickedPiece.j = -1;
 
                     pickedFlag = false;
+                    DrawBackground();
                 }
-                else if (true)
+                else
                 {
                     DataStructure.point temp = new DataStructure.point(myCollection[oBox.Name].i, myCollection[oBox.Name].j);
-                    MoveFigure(pickedPiece, temp);
-                    if (boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.white_pawn||
-                        boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.black_pawn)
+                    //if it is one of highlighted fields go on. if not than 
+                    //if it is a empty field or not highlighted enemy piece do nothing if it is a friendly piece select it 
+                    if (Validation.IsItHighlightedField(possiblePossitions, temp))
                     {
-                        Pawn.EndofTheMove(temp, boardMatrix);
-                        Pawn.WasDoubleJump(pickedPiece, temp);
+                        MoveFigure(pickedPiece, temp);
+                        if (boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.white_pawn ||
+                            boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.black_pawn)
+                        {
+                            Pawn.KickingOutFreebie(pickedPiece, temp, boardMatrix, player);
+                            Pawn.EndofTheMove(temp, boardMatrix);
+                            Pawn.WasDoubleJump(pickedPiece, temp);
+                        }
+                        
+                        pickedFlag = false;
+                        DrawBackground();
+                        ChangePlayer();
                     }
-                    pickedFlag = false;
+                    else if (Validation.IsEmpty(temp, boardMatrix))
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        if (boardMatrix[pickedPiece.i, pickedPiece.j] % 2 == (int)DataStructure.color.white)
+                        {
+                            if (!Validation.IsOpponent(temp, DataStructure.color.white, boardMatrix))
+                            {
+                                pickedPiece.i = -1;
+                                pickedPiece.j = -1;
+
+                                pickedFlag = false;
+                                SelectUnselectPiece(oBox);
+                            }
+                            //else do nothing
+                        }
+                        else if (boardMatrix[pickedPiece.i, pickedPiece.j] % 2 == (int)DataStructure.color.black)
+                        {
+                            if (!Validation.IsOpponent(temp, DataStructure.color.black, boardMatrix))
+                            {
+                                pickedPiece.i = -1;
+                                pickedPiece.j = -1;
+
+                                pickedFlag = false;
+                                SelectUnselectPiece(oBox);
+                            }
+                            //else do nothing
+                        }
+                    }
+
                 }
-                DrawBackground();
+
             }
-            
+
         }
 
         /// <summary>
@@ -517,7 +579,7 @@ namespace ChessGame
                 }
 
 
-            possiblePossitions = null;
+            //possiblePossitions = null;
 
             }
             catch (Exception e)
@@ -527,5 +589,19 @@ namespace ChessGame
 
         }
 
+
+
+        private void ChangePlayer()
+        {
+            if (player == (int)DataStructure.color.white)
+            {
+                player = (int)DataStructure.color.black;
+            }
+            else
+            {
+                player = (int)DataStructure.color.white;
+            }
         }
+
+    }
 }

@@ -88,5 +88,29 @@ namespace ChessGame
 
             return false;
         }
+
+        public static bool IsItHighlightedField(List<DataStructure.point> possiblePossitions, DataStructure.point selectedField)
+        {
+            foreach (DataStructure.point p in possiblePossitions)
+            {
+                if (p.i == selectedField.i && p.j == selectedField.j)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static DataStructure.color FigureColor(DataStructure.point selectedField, int[,] boardMatrix)
+        {
+            if (boardMatrix[selectedField.i, selectedField.j] % 2 == (int)DataStructure.color.white)
+            {
+                return DataStructure.color.white;
+            }
+            else
+            {
+                return DataStructure.color.black;
+            }
+        }
     }
 }

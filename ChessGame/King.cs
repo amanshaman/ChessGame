@@ -35,10 +35,13 @@ namespace ChessGame
                         else
                         {
                             p = new DataStructure.point(i, j);
-                            if (KingCanMove(p, boardMatrix, DataStructure.color.white))
+                            if (Validation.IsValidPosition(p))
                             {
-                                possiblePossitions.Add(p);
-                            }
+                                if (KingCanMove(p, boardMatrix, DataStructure.color.white))
+                                {
+                                    possiblePossitions.Add(p);
+                                }
+                            }                            
                         }
                     }
                 }
@@ -69,10 +72,13 @@ namespace ChessGame
                         else
                         {
                             p = new DataStructure.point(i, j);
-                            if (KingCanMove(p, boardMatrix, DataStructure.color.black))
+                            if (Validation.IsValidPosition(p))
                             {
-                                possiblePossitions.Add(p);
-                            }
+                                if (KingCanMove(p, boardMatrix, DataStructure.color.black))
+                                {
+                                    possiblePossitions.Add(p);
+                                }
+                            }                            
                         }
                     }
                 }
