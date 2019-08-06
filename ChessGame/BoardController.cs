@@ -10,21 +10,18 @@ namespace ChessGame
 {
     class BoardController
     {
-        private Dictionary<string, point> myCollection;
+        protected static List<DataStructure.point> possiblePossitions;
+
+        protected Dictionary<string, DataStructure.point> myCollection;
 
         List<PictureBox> listOfControllers;
 
         /// <summary>
         /// Matrix for the board
         /// </summary>
-        private int[,] boardMatrix;
+        protected static int[,] boardMatrix;
 
-        /// <summary>
-        /// Get, set a board
-        /// </summary>
-        public int[,] BoardMatrix { get => boardMatrix; set => boardMatrix = value; }
-
-        public enum figures
+        protected enum figures
         {
             empty = 0,
             white_pawn = 1,
@@ -40,24 +37,6 @@ namespace ChessGame
             white_king = 11,
             black_king = 12,
         };
-
-        public enum color
-        {
-            black,
-            white
-        }
-
-        public struct point
-        {
-            public int i;
-            public int j;
-
-            public point(int i, int j)
-            {
-                this.i = i;
-                this.j = j;
-            }
-        }
 
         public BoardController()
         {
@@ -80,7 +59,7 @@ namespace ChessGame
             {2,2,2,2,2,2,2,2 },
             {4,6,8,12,10,8,6,4 }};
 
-            this.BoardMatrix = nboard;
+            boardMatrix = nboard;
 
             DrawBackground();
 
@@ -92,8 +71,8 @@ namespace ChessGame
         /// </summary>
         private void DrawBackground()
         {
-            myCollection = new Dictionary<string, point>();
-            point p = new point();
+            myCollection = new Dictionary<string, DataStructure.point>();
+            DataStructure.point p = new DataStructure.point();
             int k = 0;
             for (int i = 0; i < 8; i++)
             {
@@ -212,39 +191,123 @@ namespace ChessGame
             }
         }
 
+        /// <summary>
+        /// Method that moves figures on the board
+        /// </summary>
+        /// <param name="currentPosition">Current position of the figure</param>
+        /// <param name="newPosition">Next position of the figure</param>
+        protected void MoveFigure(DataStructure.point currentPosition, DataStructure.point newPosition)
+        {
+            try
+            {
+                boardMatrix[newPosition.i, newPosition.j] = boardMatrix[currentPosition.i, currentPosition.j];
+                boardMatrix[currentPosition.i, currentPosition.j] = 0;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("MoveFigure method failure: Values of x and y axis needs to be between 0 to 7.");
+                Console.WriteLine(e.ToString());
+            }
+        }
 
-        point pickedPiece;
-        Boolean pickedFlag = false;
+        
+        
         private void PictureClick(object sender, EventArgs e)
         {
-            
-            PictureBox oBox = (PictureBox)sender;
-            bool t = false;
-            //if previously there was no piece picked than pick some
-            if (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j] != 0 && !pickedFlag)
-            {
-                pickedPiece = new point(myCollection[oBox.Name].i, myCollection[oBox.Name].j);
-                pickedFlag = true;
-                t = true;
-            }
-            //else put a piece on this place and unflag the flag
-            else if (pickedFlag)
-            {
-                point temp = new point(myCollection[oBox.Name].i, myCollection[oBox.Name].j);
-                MoveFigure(pickedPiece, temp);
-                pickedFlag = false;
-                t = false;
-            }
 
-            DrawBackground();
-            if (t)
-            {
-                HighligtSelectedPiece(oBox);
-            }
-           
+            PictureBox oBox = (PictureBox)sender;
+
+            SelectUnselectPiece(oBox);            
+
 
         }
 
+        DataStructure.point pickedPiece = new DataStructure.point();
+        private Boolean pickedFlag = false;
+        void SelectUnselectPiece(PictureBox oBox)
+        {
+            if (!pickedFlag)
+            {
+                pickedPiece.i = myCollection[oBox.Name].i;
+                pickedPiece.j = myCollection[oBox.Name].j;
+                pickedFlag = true;
+
+                switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
+                {
+                    case (int)figures.white_pawn:
+                        possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.black_pawn:
+                        possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.white_rock:
+                        possiblePossitions = Rock.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.black_rock:
+                        possiblePossitions = Rock.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.white_knight:
+                        possiblePossitions = Knight.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.black_knight:
+                        possiblePossitions = Knight.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.white_bishop:
+                        possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.black_bishop:
+                        possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.white_queen:
+                        possiblePossitions = Queen.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.black_queen:
+                        possiblePossitions = Queen.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.white_king:
+                        possiblePossitions = King.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                        break;
+                    case (int)figures.black_king:
+                        possiblePossitions = King.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                DrawBackground();
+                HighligtSelectedPiece(oBox);
+            }
+            else
+            {
+                if (pickedPiece.i == myCollection[oBox.Name].i && pickedPiece.j == myCollection[oBox.Name].j)
+                {
+                    pickedPiece.i = -1;
+                    pickedPiece.j = -1;
+
+                    pickedFlag = false;
+                }
+                else if (true)
+                {
+                    DataStructure.point temp = new DataStructure.point(myCollection[oBox.Name].i, myCollection[oBox.Name].j);
+                    MoveFigure(pickedPiece, temp);
+                    if (boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.white_pawn||
+                        boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.black_pawn)
+                    {
+                        Pawn.EndofTheMove(temp, boardMatrix);
+                        Pawn.WasDoubleJump(pickedPiece, temp);
+                    }
+                    pickedFlag = false;
+                }
+                DrawBackground();
+            }
+            
+        }
+
+        /// <summary>
+        /// Method for drawing out possible moves and possible pieces of figures to be kick out.
+        /// </summary>
+        /// <param name="oBox"></param>
         private void HighligtSelectedPiece(PictureBox oBox)
         {
             if (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j] != 0)
@@ -342,105 +405,127 @@ namespace ChessGame
 
 
             }
-        }
-
-        /// <summary>
-        /// Method that moves figures on the board
-        /// </summary>
-        /// <param name="currentPosition">Current position of the figure</param>
-        /// <param name="newPosition">Next position of the figure</param>
-        public void MoveFigure(point currentPosition, point newPosition)
-        {
             try
-            {
-                boardMatrix[newPosition.i, newPosition.j] = boardMatrix[currentPosition.i, currentPosition.j];
-                boardMatrix[currentPosition.i, currentPosition.j] = 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("MoveFigure method failure: Values of x and y axis needs to be between 0 to 7.");
-                Console.WriteLine(e.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Method for validating a position. It has to be matrix 0 to 7 in x and y axis.
-        /// </summary>
-        /// <param name="possition">position to be validated</param>
-        /// <returns></returns>
-        public bool IsValidPosition(point possition)
-        {
-            try
-            {
-                if (possition.i < 0 || possition.i > 7)
+            {                
+                foreach (var p in possiblePossitions)
                 {
-                    return false;
-                }
-                else if (possition.j < 0 || possition.j > 7)
-                {
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("IsValidPosition method failure: Values of x and y axis needs to be between 0 to 7.");
-                Console.WriteLine(e.ToString());
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Method to determinade if a field is empty.
-        /// </summary>
-        /// <param name="possition">Position to move.</param>
-        /// <returns></returns>
-        public bool IsEmpty(point possition)
-        {
-            try
-            {
-                if (boardMatrix[possition.i, possition.j] == 0)
-                {
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("IsEmpty methid failure: Values of x and y axis needs to be between 0 to 7.");
-                Console.WriteLine(e.ToString());
-            }
-            return false;
-        }
-
-        public bool IsOpponent(point possition, color color)
-        {
-            try
-            {
-                //if (int)color % 2 != 0 it means its 1 therefore an odd number = white.
-                if ((int)color % 2 != 0)
-                {
-                    //than if value on the possition is equal to 0 (even number) than its black and can be kicked out
-                    //value needs to be bigger than 0 as it is empty value.
-                    if (boardMatrix[possition.i, possition.j] > 0 && boardMatrix[possition.i, possition.j] % 2 == 0)
+                    int k = 0;
+                    foreach (var item in myCollection)
                     {
-                        return true;
+                        if (item.Value.i == p.i && item.Value.j == p.j)
+                        {
+                            //if value of the field is 0 than its empty so just change color of background
+                            if (boardMatrix[p.i,p.j] == 0)
+                            {
+                                listOfControllers[k].BackColor = Color.Green;
+                            }
+                            else
+                            {
+                                //if %2 == 0 than field is white otherwise brown
+                                if ((p.i + p.j) % 2 == 0)
+                                {
+                                    switch (boardMatrix[p.i, p.j])
+                                    {
+                                        case (int)figures.white_pawn:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_pawn_white;
+                                            break;
+                                        case (int)figures.black_pawn:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_pawn_white;
+                                            break;
+                                        case (int)figures.white_rock:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_rock_white;
+                                            break;
+                                        case (int)figures.black_rock:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_rock_white;
+                                            break;
+                                        case (int)figures.white_knight:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_knight_white;
+                                            break;
+                                        case (int)figures.black_knight:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_knight_white;
+                                            break;
+                                        case (int)figures.white_bishop:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_bishop_white;
+                                            break;
+                                        case (int)figures.black_bishop:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_bishop_white;
+                                            break;
+                                        case (int)figures.white_queen:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_queen_white;
+                                            break;
+                                        case (int)figures.black_queen:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_queen_white;
+                                            break;
+                                        case (int)figures.white_king:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_king_white;
+                                            break;
+                                        case (int)figures.black_king:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_King_white;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (boardMatrix[p.i, p.j])
+                                    {
+                                        case (int)figures.white_pawn:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_pawn_brown;
+                                            break;
+                                        case (int)figures.black_pawn:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_pawn_brown;
+                                            break;
+                                        case (int)figures.white_rock:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_rock_brown;
+                                            break;
+                                        case (int)figures.black_rock:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_rock_brown;
+                                            break;
+                                        case (int)figures.white_knight:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_knight_brown;
+                                            break;
+                                        case (int)figures.black_knight:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_knight_brown;
+                                            break;
+                                        case (int)figures.white_bishop:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_bishop_brown;
+                                            break;
+                                        case (int)figures.black_bishop:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_bishop_brown;
+                                            break;
+                                        case (int)figures.white_queen:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_queen_brown;
+                                            break;
+                                        case (int)figures.black_queen:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_queen_brown;
+                                            break;
+                                        case (int)figures.white_king:
+                                            listOfControllers[k].Image = Properties.Resources.selected_white_king_brown;
+                                            break;
+                                        case (int)figures.black_king:
+                                            listOfControllers[k].Image = Properties.Resources.selected_black_King_brown;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        k++;
                     }
                 }
-                else
-                {
-                    //than if value on the possition is equal to 1 (odd number) than its white and can be kicked out
-                    if (boardMatrix[possition.i, possition.j] % 2 == 1)
-                    {
-                        return true;
-                    }
-                }
+
+
+            possiblePossitions = null;
+
             }
             catch (Exception e)
             {
-                Console.WriteLine("IsOpponent methid failure: Values of x and y axis needs to be between 0 to 7.");
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("Problem in HighligtSelectedPiece" + e.ToString());
             }
 
-            return false;
         }
-    }
+
+        }
 }
