@@ -112,5 +112,45 @@ namespace ChessGame
                 return DataStructure.color.black;
             }
         }
+
+        public static bool IsOpponent(DataStructure.point enemyPossition, DataStructure.point allyPossition, int[,] boardMatrix)
+        {
+            try
+            {
+                if (boardMatrix[enemyPossition.i,enemyPossition.j] != (int)DataStructure.figures.empty)
+                {
+                    if (boardMatrix[enemyPossition.i,enemyPossition.j] % 2 != boardMatrix[allyPossition.i,allyPossition.j] % 2)
+                    {
+                        return true;
+                    }
+                }
+                
+                ////if (int)color % 2 != 0 it means its 1 therefore an odd number = white.
+                //if ((int)color % 2 != 0)
+                //{
+                //    //than if value on the possition is equal to 0 (even number) than its black and can be kicked out
+                //    //value needs to be bigger than 0 as it is empty value.
+                //    if (boardMatrix[possition.i, possition.j] > 0 && boardMatrix[possition.i, possition.j] % 2 == 0)
+                //    {
+                //        return true;
+                //    }
+                //}
+                //else
+                //{
+                //    //than if value on the possition is equal to 1 (odd number) than its white and can be kicked out
+                //    if (boardMatrix[possition.i, possition.j] % 2 == 1)
+                //    {
+                //        return true;
+                //    }
+                //}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("IsOpponent methid failure: Values of x and y axis needs to be between 0 to 7.");
+                Console.WriteLine(e.ToString());
+            }
+
+            return false;
+        }
     }
 }

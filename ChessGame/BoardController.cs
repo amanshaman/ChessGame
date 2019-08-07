@@ -254,7 +254,7 @@ namespace ChessGame
                                 possiblePossitions = Queen.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
                             case (int)figures.white_king:
-                                possiblePossitions = King.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                                possiblePossitions = King.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
                             default:
                                 break;
@@ -288,7 +288,7 @@ namespace ChessGame
                                 possiblePossitions = Queen.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
                             case (int)figures.black_king:
-                                possiblePossitions = King.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                                possiblePossitions = King.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
                             default:
                                 break;
