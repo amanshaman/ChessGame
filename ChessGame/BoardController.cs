@@ -357,7 +357,7 @@ namespace ChessGame
                     {
                         if (boardMatrix[pickedPiece.i, pickedPiece.j] % 2 == (int)DataStructure.color.white)
                         {
-                            if (!Validation.IsOpponent(temp, DataStructure.color.white, boardMatrix))
+                            if (!Validation.IsOpponent(temp, (int)DataStructure.color.white, boardMatrix))
                             {
                                 pickedPiece.i = -1;
                                 pickedPiece.j = -1;
@@ -369,7 +369,7 @@ namespace ChessGame
                         }
                         else if (boardMatrix[pickedPiece.i, pickedPiece.j] % 2 == (int)DataStructure.color.black)
                         {
-                            if (!Validation.IsOpponent(temp, DataStructure.color.black, boardMatrix))
+                            if (!Validation.IsOpponent(temp, (int)DataStructure.color.black, boardMatrix))
                             {
                                 pickedPiece.i = -1;
                                 pickedPiece.j = -1;

@@ -57,12 +57,12 @@ namespace ChessGame
             return true;
         }
 
-        public static bool IsOpponent(DataStructure.point possition, DataStructure.color color, int[,] boardMatrix)
+        public static bool IsOpponent(DataStructure.point possition, int color, int[,] boardMatrix)
         {
             try
             {
                 //if (int)color % 2 != 0 it means its 1 therefore an odd number = white.
-                if ((int)color % 2 != 0)
+                if (color == (int)DataStructure.color.white)
                 {
                     //than if value on the possition is equal to 0 (even number) than its black and can be kicked out
                     //value needs to be bigger than 0 as it is empty value.

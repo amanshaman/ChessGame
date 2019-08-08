@@ -36,7 +36,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -56,7 +56,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -76,7 +76,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -96,7 +96,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -133,7 +133,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -153,7 +153,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -173,7 +173,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -193,7 +193,7 @@ namespace ChessGame
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }

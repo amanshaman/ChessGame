@@ -43,17 +43,25 @@ namespace ChessGame
                             {
                                 if (Validation.IsEmpty(p, boardMatrix))
                                 {
-                                    if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
-                                    {
-                                        possiblePossitions.Add(p);
-                                    }
+                                    //if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
+                                    //{
+                                    //    possiblePossitions.Add(p);
+                                    //}
+                                    //if (!CheckPawn(p,boardMatrix, boardMatrix[possition.i, possition.j]))
+                                    //{
+                                    //    possiblePossitions.Add(p);
+                                    //}
                                 }
-                                else if(Validation.IsOpponent(p,possition,boardMatrix))
+                                else if (Validation.IsOpponent(p, possition, boardMatrix))
                                 {
-                                    if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
-                                    {
-                                        possiblePossitions.Add(p);
-                                    }
+                                    //if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
+                                    //{
+                                    //    possiblePossitions.Add(p);
+                                    //}
+                                    //if (!CheckPawn(p, boardMatrix, boardMatrix[possition.i, possition.j]))
+                                    //{
+                                    //    possiblePossitions.Add(p);
+                                    //}
                                 }
                             }                            
                         }
@@ -68,28 +76,13 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        private static List<DataStructure.point> RemoveMove(DataStructure.point possition, int[,] boardMatrix, DataStructure.color pieceColor)
-        {
-            List<DataStructure.point> possiblePossitions = FindMoves(possition, boardMatrix);
-            List<DataStructure.point> updatedPossitions = new List<DataStructure.point>();
-
-            for (int i = 0; i < possiblePossitions.Count; i++)
-            {
-                if (!CheckKing(possiblePossitions[i], boardMatrix, (int)pieceColor))
-                {
-                    updatedPossitions.Add(possiblePossitions[i]);
-                }
-            }
-            return updatedPossitions;
-        }
-
         public static bool IsItCheck(DataStructure.point possition , int[,] boardMatrix, DataStructure.color pieceColor)
         {
 
             return CheckKing(possition, boardMatrix, (int)pieceColor);
         }
 
-        private static bool CheckHorizontal(DataStructure.point possition, int[,] boardMatrix)
+        private static bool CheckHorizontal(DataStructure.point possition, int[,] boardMatrix, int color)
         {
             //check for rock / queen to the left
             DataStructure.point p;
@@ -153,7 +146,7 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckVertical(DataStructure.point possition, int[,] boardMatrix)
+        private static bool CheckVertical(DataStructure.point possition, int[,] boardMatrix, int color)
         {
             //check for rock / queen to the left
             DataStructure.point p;
@@ -217,7 +210,7 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckDiagonal(DataStructure.point possition, int[,] boardMatrix)
+        private static bool CheckDiagonal(DataStructure.point possition, int[,] boardMatrix, int color)
         {
             try
             {
@@ -359,7 +352,7 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckKnight(DataStructure.point possition, int[,] boardMatrix)
+        private static bool CheckKnight(DataStructure.point possition, int[,] boardMatrix, int color)
         {
             try
             {
@@ -441,18 +434,18 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckPawn(DataStructure.point possition, int[,] boardMatrix)
+        private static bool CheckPawn(DataStructure.point possition, int[,] boardMatrix, int color)
         {
             try
             {
                 DataStructure.point p;
 
-                if (boardMatrix[possition.i,possition.j] == (int)DataStructure.figures.white_king)
+                if (color == (int)DataStructure.figures.white_king)
                 {
                     p = new DataStructure.point(possition.i + 1, possition.j - 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p,possition,boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
                         {
                             if (boardMatrix[p.i,p.j] == (int)DataStructure.figures.black_pawn)
                             {
@@ -463,7 +456,7 @@ namespace ChessGame
                     p = new DataStructure.point(possition.i + 1, possition.j + 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, possition, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
                         {
                             if (boardMatrix[p.i, p.j] == (int)DataStructure.figures.black_pawn)
                             {
@@ -472,12 +465,12 @@ namespace ChessGame
                         }
                     }
                 }
-                else if (boardMatrix[possition.i, possition.j] == (int)DataStructure.figures.black_king)
+                else if (color == (int)DataStructure.figures.black_king)
                 {
                     p = new DataStructure.point(possition.i - 1, possition.j - 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, possition, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
                         {
                             if (boardMatrix[p.i, p.j] == (int)DataStructure.figures.white_pawn)
                             {
@@ -488,7 +481,7 @@ namespace ChessGame
                     p = new DataStructure.point(possition.i - 1, possition.j + 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, possition, boardMatrix))
+                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
                         {
                             if (boardMatrix[p.i, p.j] == (int)DataStructure.figures.white_pawn)
                             {

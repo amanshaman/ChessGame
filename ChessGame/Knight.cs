@@ -172,7 +172,7 @@ namespace ChessGame
             }
             else
             {
-                if (Validation.IsOpponent(possition, color, boardMatrix))
+                if (Validation.IsOpponent(possition, (int)color, boardMatrix))
                 {
                     return true;
                 }
