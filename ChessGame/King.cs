@@ -8,6 +8,14 @@ namespace ChessGame
 {
     static class King
     {
+        private static DataStructure.point whiteKing;
+        private static DataStructure.point blackKing;
+
+        internal static DataStructure.point WhiteKing { get => whiteKing; set => whiteKing = value; }
+        internal static DataStructure.point BlackKing { get => blackKing; set => blackKing = value; }
+
+
+
         public static List<DataStructure.point> FindPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
         {
             return FindMoves(possition, boardMatrix);
@@ -35,11 +43,17 @@ namespace ChessGame
                             {
                                 if (Validation.IsEmpty(p, boardMatrix))
                                 {
-                                    possiblePossitions.Add(p);
+                                    if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
+                                    {
+                                        possiblePossitions.Add(p);
+                                    }
                                 }
                                 else if(Validation.IsOpponent(p,possition,boardMatrix))
                                 {
-                                    possiblePossitions.Add(p);
+                                    if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
+                                    {
+                                        possiblePossitions.Add(p);
+                                    }
                                 }
                             }                            
                         }
@@ -54,10 +68,25 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        public static bool IsItCheck(DataStructure.point possition , int[,] boardMatrix)
+        private static List<DataStructure.point> RemoveMove(DataStructure.point possition, int[,] boardMatrix, DataStructure.color pieceColor)
+        {
+            List<DataStructure.point> possiblePossitions = FindMoves(possition, boardMatrix);
+            List<DataStructure.point> updatedPossitions = new List<DataStructure.point>();
+
+            for (int i = 0; i < possiblePossitions.Count; i++)
+            {
+                if (!CheckKing(possiblePossitions[i], boardMatrix, (int)pieceColor))
+                {
+                    updatedPossitions.Add(possiblePossitions[i]);
+                }
+            }
+            return updatedPossitions;
+        }
+
+        public static bool IsItCheck(DataStructure.point possition , int[,] boardMatrix, DataStructure.color pieceColor)
         {
 
-            return false;
+            return CheckKing(possition, boardMatrix, (int)pieceColor);
         }
 
         private static bool CheckHorizontal(DataStructure.point possition, int[,] boardMatrix)
@@ -477,12 +506,10 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckKing(DataStructure.point possition, int[,] boardMatrix)
+        private static bool CheckKing(DataStructure.point possition, int[,] boardMatrix, int color)
         {
             DataStructure.point p;
-
-            DataStructure.color temp = (boardMatrix[possition.i, possition.j] % 2 == 0) ? DataStructure.color.black : DataStructure.color.white;
-
+            
             try
             {
                 for (int i = possition.i - 1; i <= possition.i + 1; i++)
@@ -497,56 +524,23 @@ namespace ChessGame
                         {
                             p = new DataStructure.point(i, j);
 
-                            HelpCheckKing(p, boardMatrix, temp);
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="possition">field which needs to be checked. not a current king possition</param>
-        /// <param name="boardMatrix"></param>
-        /// <param name="color">color of your own piece</param>
-        /// <returns></returns>
-        private static bool HelpCheckKing(DataStructure.point possition, int[,] boardMatrix, DataStructure.color color)
-        {
-            DataStructure.point p;
-            try
-            {
-                for (int i = possition.i - 1; i <= possition.i + 1; i++)
-                {
-                    for (int j = possition.j - 1; j <= possition.j + 1; j++)
-                    {
-                        if (possition.i == i && possition.j == j)
-                        {
-                            //do nothing
-                        }
-                        else
-                        {
-                            p = new DataStructure.point(i, j);
                             if (Validation.IsValidPosition(p))
                             {
-                                if (boardMatrix[p.i,p.j] % 2 != (int)color)
+                                if (boardMatrix[p.i, p.j] != 0)
                                 {
-                                    switch (boardMatrix[p.i, p.j])
+                                    if (boardMatrix[p.i, p.j] % 2 != color)
                                     {
-                                        case (int)DataStructure.figures.white_king:
-                                            return true;
-                                        case (int)DataStructure.figures.black_king:
-                                            return true;
-                                        default:
-                                            break;
-                                    }
-                                }                                    
+                                        switch (boardMatrix[p.i, p.j])
+                                        {
+                                            case (int)DataStructure.figures.white_king:
+                                                return true;
+                                            case (int)DataStructure.figures.black_king:
+                                                return true;
+                                            default:
+                                                break;
+                                        }
+                                    }                                    
+                                }
                             }
                         }
                     }
@@ -561,5 +555,10 @@ namespace ChessGame
         }
 
 
+        
+
+        
+
+        
     }
 }

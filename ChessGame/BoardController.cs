@@ -10,7 +10,25 @@ namespace ChessGame
 {
     class BoardController
     {
-        private int player = (int)DataStructure.color.white;
+        private int player;
+
+        public int Player
+        {
+            get { return player; }
+
+            set
+            {
+                player = value;
+                if (player == (int)DataStructure.color.white)
+                {                    
+                    StartMove();
+                }
+                if (player == (int)DataStructure.color.black)
+                {
+                    StartMove();
+                }
+            }            
+        }
 
         protected static List<DataStructure.point> possiblePossitions;
 
@@ -44,7 +62,7 @@ namespace ChessGame
         {
             Console.WriteLine("Pls use BoardController(List<PictureBox> listOfControllers) method for creating board");
         }
-
+        
         /// <summary>
         /// Create basic starting board
         /// </summary>
@@ -64,7 +82,7 @@ namespace ChessGame
             boardMatrix = nboard;
 
             DrawBackground();
-
+            Player = (int)DataStructure.color.white;
             AddClickEventToPictures();
         }        
 
@@ -228,7 +246,7 @@ namespace ChessGame
         {
             if (!pickedFlag)
             {
-                if (player == (int)DataStructure.color.white)
+                if (Player == (int)DataStructure.color.white)
                 {
                     pickedPiece.i = myCollection[oBox.Name].i;
                     pickedPiece.j = myCollection[oBox.Name].j;
@@ -319,11 +337,14 @@ namespace ChessGame
                         if (boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.white_pawn ||
                             boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.black_pawn)
                         {
-                            Pawn.KickingOutFreebie(pickedPiece, temp, boardMatrix, player);
+                            Pawn.KickingOutFreebie(pickedPiece, temp, boardMatrix, Player);
                             Pawn.EndofTheMove(temp, boardMatrix);
                             Pawn.WasDoubleJump(pickedPiece, temp);
                         }
-                        
+                        if (Player == (int)DataStructure.color.white)
+                        {
+
+                        }
                         pickedFlag = false;
                         DrawBackground();
                         ChangePlayer();
@@ -588,20 +609,32 @@ namespace ChessGame
             }
 
         }
-
-
-
+                
         private void ChangePlayer()
         {
-            if (player == (int)DataStructure.color.white)
+            if (Player == (int)DataStructure.color.white)
             {
-                player = (int)DataStructure.color.black;
+                Player = (int)DataStructure.color.black;
             }
             else
             {
-                player = (int)DataStructure.color.white;
+                Player = (int)DataStructure.color.white;
             }
         }
 
+        private void StartMove()
+        {
+            if (Player == (int)DataStructure.color.white)
+            {
+                if (King.IsItCheck(King.WhiteKing, boardMatrix, DataStructure.color.white))
+                {
+                    Console.WriteLine("White king can not move too close to black king");
+                }
+                if (King.IsItCheck(King.BlackKing, boardMatrix, DataStructure.color.black))
+                {
+                    Console.WriteLine("Black king can not move too close to white king");
+                }
+            }
+        }
     }
 }
