@@ -8,7 +8,7 @@ namespace ChessGame
 {
     static class Bishopcs
     {
-        public static List<DataStructure.point> findPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
+        public static List<DataStructure.point> FindPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
         {
             if (DataStructure.color.white == pieceColor)
             {

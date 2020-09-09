@@ -89,6 +89,12 @@ namespace ChessGame
             return false;
         }
 
+        /// <summary>
+        /// Checks if selectedField is in possiblePossitions
+        /// </summary>
+        /// <param name="possiblePossitions">list of x,y coordinates</param>
+        /// <param name="selectedField">one x,y coordinate. </param>
+        /// <returns>true/false based if selectedfield x,y coordinate is in the list of possiblePossitions coordinates</returns>
         public static bool IsItHighlightedField(List<DataStructure.point> possiblePossitions, DataStructure.point selectedField)
         {
             foreach (DataStructure.point p in possiblePossitions)
@@ -101,8 +107,18 @@ namespace ChessGame
             return false;
         }
 
+        /// <summary>
+        /// Find out what color is a selected piece.
+        /// </summary>
+        /// <param name="selectedField">x,y coordinates for selected field</param>
+        /// <param name="boardMatrix">matrix itself</param>
+        /// <returns>Color of the selected figure, or that no figure was selected (empty)</returns>
         public static DataStructure.color FigureColor(DataStructure.point selectedField, int[,] boardMatrix)
         {
+            if (boardMatrix[selectedField.i, selectedField.j] == 0)
+            {
+                return DataStructure.color.empty;
+            }
             if (boardMatrix[selectedField.i, selectedField.j] % 2 == (int)DataStructure.color.white)
             {
                 return DataStructure.color.white;

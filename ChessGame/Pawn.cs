@@ -8,9 +8,9 @@ namespace ChessGame
 {
     static class Pawn
     {
-        static DataStructure.point freebie;
+        static DataStructure.point EnPassant;
 
-        public static List<DataStructure.point> findPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
+        public static List<DataStructure.point> FindPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
         {
             if (pieceColor == DataStructure.color.white)
             {
@@ -56,7 +56,7 @@ namespace ChessGame
                 {
                     possiblePossitions.Add(p);
                 }
-                if (freebie.i == possition.i && freebie.j == possition.j - 1)
+                if (EnPassant.i == possition.i && EnPassant.j == possition.j - 1)
                 {
                     possiblePossitions.Add(p);
                 }
@@ -68,7 +68,7 @@ namespace ChessGame
                 {
                     possiblePossitions.Add(p);
                 }
-                if (freebie.i == possition.i && freebie.j == possition.j + 1)
+                if (EnPassant.i == possition.i && EnPassant.j == possition.j + 1)
                 {
                     possiblePossitions.Add(p);
                 }
@@ -114,7 +114,7 @@ namespace ChessGame
                 {
                     possiblePossitions.Add(p);
                 }
-                if (freebie.i == possition.i && freebie.j == possition.j - 1)
+                if (EnPassant.i == possition.i && EnPassant.j == possition.j - 1)
                 {
                     possiblePossitions.Add(p);
                 }
@@ -126,7 +126,7 @@ namespace ChessGame
                 {
                     possiblePossitions.Add(p);
                 }
-                if (freebie.i == possition.i && freebie.j == possition.j + 1)
+                if (EnPassant.i == possition.i && EnPassant.j == possition.j + 1)
                 {
                     possiblePossitions.Add(p);
                 }
@@ -134,7 +134,12 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        public static void EndofTheMove(DataStructure.point possition, int[,] boardMatrix)
+        /// <summary>
+        /// Check if pawn landed on the last row of the column. If yes the promote to queen (for now)
+        /// </summary>
+        /// <param name="possition"></param>
+        /// <param name="boardMatrix"></param>
+        public static void EndofTheColumn(DataStructure.point possition, int[,] boardMatrix)
         {
             //TODO UX,UI etc
             if (possition.i == 0)
@@ -146,25 +151,25 @@ namespace ChessGame
                 boardMatrix[possition.i, possition.j] = (int)DataStructure.figures.white_queen;
             }
             
-            freebie.i = -2;
-            freebie.j = -2;
+            EnPassant.i = -2;
+            EnPassant.j = -2;
         }
 
         public static void WasDoubleJump(DataStructure.point prev, DataStructure.point current)
         {
             if (Math.Abs(prev.i - current.i) > 1)
             {
-                freebie = current;
+                EnPassant = current;
             }
         }
 
-        public static void KickingOutFreebie(DataStructure.point prev, DataStructure.point current, int[,] boardMatrix, int color)
+        public static void KickingOutEnPassant(DataStructure.point prev, DataStructure.point current, int[,] boardMatrix, int color)
         {
-           if (current.j == freebie.j && prev.j != current.j)
+           if (current.j == EnPassant.j && prev.j != current.j)
            {
-                if (current.i != freebie.i)
+                if (current.i != EnPassant.i)
                 {
-                    boardMatrix[freebie.i, freebie.j] = (int)DataStructure.figures.empty;
+                    boardMatrix[EnPassant.i, EnPassant.j] = (int)DataStructure.figures.empty;
                 }
                
            }

@@ -23,7 +23,8 @@ namespace ChessGame
         public enum color
         {
             black,
-            white
+            white,
+            empty
         }
 
         public enum figures

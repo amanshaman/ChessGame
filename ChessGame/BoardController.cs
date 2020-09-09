@@ -32,6 +32,9 @@ namespace ChessGame
 
         protected static List<DataStructure.point> possiblePossitions;
 
+        /// <summary>
+        /// keeps all picturesBox names and their X,Y coordination information.
+        /// </summary>
         protected Dictionary<string, DataStructure.point> myCollection;
 
         List<PictureBox> listOfControllers;
@@ -40,32 +43,16 @@ namespace ChessGame
         /// Matrix for the board
         /// </summary>
         protected static int[,] boardMatrix;
-
-        protected enum figures
-        {
-            empty = 0,
-            white_pawn = 1,
-            black_pawn = 2,
-            white_rock = 3,
-            black_rock = 4,
-            white_knight = 5,
-            black_knight = 6,
-            white_bishop = 7,
-            black_bishop = 8,
-            white_queen = 9,
-            black_queen = 10,
-            white_king = 11,
-            black_king = 12,
-        };
-
+        
         public BoardController()
         {
             Console.WriteLine("Pls use BoardController(List<PictureBox> listOfControllers) method for creating board");
         }
-        
+
         /// <summary>
         /// Create basic starting board
         /// </summary>
+        /// /// <param name="listOfControllers">List of Picturebox controllers</param>
         public BoardController(List<PictureBox> listOfControllers)
         {
             this.listOfControllers = listOfControllers;
@@ -84,10 +71,11 @@ namespace ChessGame
             DrawBackground();
             Player = (int)DataStructure.color.white;
             AddClickEventToPictures();
-        }        
+        }
 
         /// <summary>
-        /// Method for redrawing the board according to the matrix.
+        /// color of the fields are set. 
+        /// This method set correct color of the figures and background as of actual matrix which is saved in  myCollection;
         /// </summary>
         private void DrawBackground()
         {
@@ -102,44 +90,44 @@ namespace ChessGame
                     {
                         switch (boardMatrix[i, j])
                         {
-                            case (int)figures.empty:
+                            case (int)DataStructure.figures.empty:
                                 listOfControllers[k].BackColor = Color.White;
                                 listOfControllers[k].Image = null;
                                 break;
-                            case (int)figures.white_pawn:
+                            case (int)DataStructure.figures.white_pawn:
                                 listOfControllers[k].Image = Properties.Resources.white_pawn_white;
                                 break;
-                            case (int)figures.black_pawn:
+                            case (int)DataStructure.figures.black_pawn:
                                 listOfControllers[k].Image = Properties.Resources.black_pawn_white;
                                 break;
-                            case (int)figures.white_rock:
+                            case (int)DataStructure.figures.white_rock:
                                 listOfControllers[k].Image = Properties.Resources.white_rock_white;
                                 break;
-                            case (int)figures.black_rock:
+                            case (int)DataStructure.figures.black_rock:
                                 listOfControllers[k].Image = Properties.Resources.black_rock_white;
                                 break;
-                            case (int)figures.white_knight:
+                            case (int)DataStructure.figures.white_knight:
                                 listOfControllers[k].Image = Properties.Resources.white_knight_white;
                                 break;
-                            case (int)figures.black_knight:
+                            case (int)DataStructure.figures.black_knight:
                                 listOfControllers[k].Image = Properties.Resources.black_knight_white;
                                 break;
-                            case (int)figures.white_bishop:
+                            case (int)DataStructure.figures.white_bishop:
                                 listOfControllers[k].Image = Properties.Resources.white_bishop_white;
                                 break;
-                            case (int)figures.black_bishop:
+                            case (int)DataStructure.figures.black_bishop:
                                 listOfControllers[k].Image = Properties.Resources.black_bishop_white;
                                 break;
-                            case (int)figures.white_queen:
+                            case (int)DataStructure.figures.white_queen:
                                 listOfControllers[k].Image = Properties.Resources.white_queen_white;
                                 break;
-                            case (int)figures.black_queen:
+                            case (int)DataStructure.figures.black_queen:
                                 listOfControllers[k].Image = Properties.Resources.black_queen_white;
                                 break;
-                            case (int)figures.white_king:
+                            case (int)DataStructure.figures.white_king:
                                 listOfControllers[k].Image = Properties.Resources.white_king_white;
                                 break;
-                            case (int)figures.black_king:
+                            case (int)DataStructure.figures.black_king:
                                 listOfControllers[k].Image = Properties.Resources.black_King_white;
                                 break;
                             default:
@@ -150,44 +138,44 @@ namespace ChessGame
                     {
                         switch (boardMatrix[i, j])
                         {
-                            case (int)figures.empty:
+                            case (int)DataStructure.figures.empty:
                                 listOfControllers[k].BackColor = Color.RosyBrown;
                                 listOfControllers[k].Image = null;
                                 break;
-                            case (int)figures.white_pawn:
+                            case (int)DataStructure.figures.white_pawn:
                                 listOfControllers[k].Image = Properties.Resources.white_pawn_brown;
                                 break;
-                            case (int)figures.black_pawn:
+                            case (int)DataStructure.figures.black_pawn:
                                 listOfControllers[k].Image = Properties.Resources.black_pawn_brown;
                                 break;
-                            case (int)figures.white_rock:
+                            case (int)DataStructure.figures.white_rock:
                                 listOfControllers[k].Image = Properties.Resources.white_rock_brown;
                                 break;
-                            case (int)figures.black_rock:
+                            case (int)DataStructure.figures.black_rock:
                                 listOfControllers[k].Image = Properties.Resources.black_rock_brown;
                                 break;
-                            case (int)figures.white_knight:
+                            case (int)DataStructure.figures.white_knight:
                                 listOfControllers[k].Image = Properties.Resources.white_knight_brown;
                                 break;
-                            case (int)figures.black_knight:
+                            case (int)DataStructure.figures.black_knight:
                                 listOfControllers[k].Image = Properties.Resources.black_knight_brown;
                                 break;
-                            case (int)figures.white_bishop:
+                            case (int)DataStructure.figures.white_bishop:
                                 listOfControllers[k].Image = Properties.Resources.white_bishop_brown;
                                 break;
-                            case (int)figures.black_bishop:
+                            case (int)DataStructure.figures.black_bishop:
                                 listOfControllers[k].Image = Properties.Resources.black_bishop_brown;
                                 break;
-                            case (int)figures.white_queen:
+                            case (int)DataStructure.figures.white_queen:
                                 listOfControllers[k].Image = Properties.Resources.white_queen_brown;
                                 break;
-                            case (int)figures.black_queen:
+                            case (int)DataStructure.figures.black_queen:
                                 listOfControllers[k].Image = Properties.Resources.black_queen_brown;
                                 break;
-                            case (int)figures.white_king:
+                            case (int)DataStructure.figures.white_king:
                                 listOfControllers[k].Image = Properties.Resources.white_king_brown;
                                 break;
-                            case (int)figures.black_king:
+                            case (int)DataStructure.figures.black_king:
                                 listOfControllers[k].Image = Properties.Resources.black_King_brown;
                                 break;
                             default:
@@ -244,10 +232,13 @@ namespace ChessGame
         private Boolean pickedFlag = false;
         void SelectUnselectPiece(PictureBox oBox)
         {
+            //if figure is picked conteniu.
             if (!pickedFlag)
             {
+                //if player is white conteniu
                 if (Player == (int)DataStructure.color.white)
                 {
+                    //save coordination data to variable and check what piece was picked up.
                     pickedPiece.i = myCollection[oBox.Name].i;
                     pickedPiece.j = myCollection[oBox.Name].j;
                     if (Validation.FigureColor(pickedPiece, boardMatrix) == DataStructure.color.white)
@@ -256,22 +247,22 @@ namespace ChessGame
 
                         switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
                         {
-                            case (int)figures.white_pawn:
-                                possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.white_pawn:
+                                possiblePossitions = Pawn.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;                           
-                            case (int)figures.white_rock:
-                                possiblePossitions = Rock.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.white_rock:
+                                possiblePossitions = Rock.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.white_knight:
-                                possiblePossitions = Knight.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.white_knight:
+                                possiblePossitions = Knight.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.white_bishop:
-                                possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.white_bishop:
+                                possiblePossitions = Bishopcs.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.white_queen:
-                                possiblePossitions = Queen.findPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.white_queen:
+                                possiblePossitions = Queen.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.white_king:
+                            case (int)DataStructure.figures.white_king:
                                 possiblePossitions = King.FindPossibleMoves(DataStructure.color.white, pickedPiece, boardMatrix);
                                 break;
                             default:
@@ -290,22 +281,22 @@ namespace ChessGame
                         pickedFlag = true;
                         switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
                         {
-                            case (int)figures.black_pawn:
-                                possiblePossitions = Pawn.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.black_pawn:
+                                possiblePossitions = Pawn.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.black_rock:
-                                possiblePossitions = Rock.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.black_rock:
+                                possiblePossitions = Rock.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.black_knight:
-                                possiblePossitions = Knight.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.black_knight:
+                                possiblePossitions = Knight.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.black_bishop:
-                                possiblePossitions = Bishopcs.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.black_bishop:
+                                possiblePossitions = Bishopcs.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.black_queen:
-                                possiblePossitions = Queen.findPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
+                            case (int)DataStructure.figures.black_queen:
+                                possiblePossitions = Queen.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
-                            case (int)figures.black_king:
+                            case (int)DataStructure.figures.black_king:
                                 possiblePossitions = King.FindPossibleMoves(DataStructure.color.black, pickedPiece, boardMatrix);
                                 break;
                             default:
@@ -318,6 +309,7 @@ namespace ChessGame
             }
             else
             {
+                //if ckicked at the same square as before, "drop figure" and clear highlights
                 if (pickedPiece.i == myCollection[oBox.Name].i && pickedPiece.j == myCollection[oBox.Name].j)
                 {
                     pickedPiece.i = -1;
@@ -337,8 +329,8 @@ namespace ChessGame
                         if (boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.white_pawn ||
                             boardMatrix[temp.i, temp.j] == (int)DataStructure.figures.black_pawn)
                         {
-                            Pawn.KickingOutFreebie(pickedPiece, temp, boardMatrix, Player);
-                            Pawn.EndofTheMove(temp, boardMatrix);
+                            Pawn.KickingOutEnPassant(pickedPiece, temp, boardMatrix, Player);
+                            Pawn.EndofTheColumn(temp, boardMatrix);
                             Pawn.WasDoubleJump(pickedPiece, temp);
                         }
                         if (Player == (int)DataStructure.color.white)
@@ -400,40 +392,40 @@ namespace ChessGame
                 {
                     switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
                     {
-                        case (int)figures.white_pawn:
+                        case (int)DataStructure.figures.white_pawn:
                             oBox.Image = Properties.Resources.selected_white_pawn_white;
                             break;
-                        case (int)figures.black_pawn:
+                        case (int)DataStructure.figures.black_pawn:
                             oBox.Image = Properties.Resources.selected_black_pawn_white;
                             break;
-                        case (int)figures.white_rock:
+                        case (int)DataStructure.figures.white_rock:
                             oBox.Image = Properties.Resources.selected_white_rock_white;
                             break;
-                        case (int)figures.black_rock:
+                        case (int)DataStructure.figures.black_rock:
                             oBox.Image = Properties.Resources.selected_black_rock_white;
                             break;
-                        case (int)figures.white_knight:
+                        case (int)DataStructure.figures.white_knight:
                             oBox.Image = Properties.Resources.selected_white_knight_white;
                             break;
-                        case (int)figures.black_knight:
+                        case (int)DataStructure.figures.black_knight:
                             oBox.Image = Properties.Resources.selected_black_knight_white;
                             break;
-                        case (int)figures.white_bishop:
+                        case (int)DataStructure.figures.white_bishop:
                             oBox.Image = Properties.Resources.selected_white_bishop_white;
                             break;
-                        case (int)figures.black_bishop:
+                        case (int)DataStructure.figures.black_bishop:
                             oBox.Image = Properties.Resources.selected_black_bishop_white;
                             break;
-                        case (int)figures.white_queen:
+                        case (int)DataStructure.figures.white_queen:
                             oBox.Image = Properties.Resources.selected_white_queen_white;
                             break;
-                        case (int)figures.black_queen:
+                        case (int)DataStructure.figures.black_queen:
                             oBox.Image = Properties.Resources.selected_black_queen_white;
                             break;
-                        case (int)figures.white_king:
+                        case (int)DataStructure.figures.white_king:
                             oBox.Image = Properties.Resources.selected_white_king_white;
                             break;
-                        case (int)figures.black_king:
+                        case (int)DataStructure.figures.black_king:
                             oBox.Image = Properties.Resources.selected_black_King_white;
                             break;
                         default:
@@ -444,40 +436,40 @@ namespace ChessGame
                 {
                     switch (boardMatrix[myCollection[oBox.Name].i, myCollection[oBox.Name].j])
                     {
-                        case (int)figures.white_pawn:
+                        case (int)DataStructure.figures.white_pawn:
                             oBox.Image = Properties.Resources.selected_white_pawn_brown;
                             break;
-                        case (int)figures.black_pawn:
+                        case (int)DataStructure.figures.black_pawn:
                             oBox.Image = Properties.Resources.selected_black_pawn_brown;
                             break;
-                        case (int)figures.white_rock:
+                        case (int)DataStructure.figures.white_rock:
                             oBox.Image = Properties.Resources.selected_white_rock_brown;
                             break;
-                        case (int)figures.black_rock:
+                        case (int)DataStructure.figures.black_rock:
                             oBox.Image = Properties.Resources.selected_black_rock_brown;
                             break;
-                        case (int)figures.white_knight:
+                        case (int)DataStructure.figures.white_knight:
                             oBox.Image = Properties.Resources.selected_white_knight_brown;
                             break;
-                        case (int)figures.black_knight:
+                        case (int)DataStructure.figures.black_knight:
                             oBox.Image = Properties.Resources.selected_black_knight_brown;
                             break;
-                        case (int)figures.white_bishop:
+                        case (int)DataStructure.figures.white_bishop:
                             oBox.Image = Properties.Resources.selected_white_bishop_brown;
                             break;
-                        case (int)figures.black_bishop:
+                        case (int)DataStructure.figures.black_bishop:
                             oBox.Image = Properties.Resources.selected_black_bishop_brown;
                             break;
-                        case (int)figures.white_queen:
+                        case (int)DataStructure.figures.white_queen:
                             oBox.Image = Properties.Resources.selected_white_queen_brown;
                             break;
-                        case (int)figures.black_queen:
+                        case (int)DataStructure.figures.black_queen:
                             oBox.Image = Properties.Resources.selected_black_queen_brown;
                             break;
-                        case (int)figures.white_king:
+                        case (int)DataStructure.figures.white_king:
                             oBox.Image = Properties.Resources.selected_white_king_brown;
                             break;
-                        case (int)figures.black_king:
+                        case (int)DataStructure.figures.black_king:
                             oBox.Image = Properties.Resources.selected_black_King_brown;
                             break;
                         default:
@@ -509,40 +501,40 @@ namespace ChessGame
                                 {
                                     switch (boardMatrix[p.i, p.j])
                                     {
-                                        case (int)figures.white_pawn:
+                                        case (int)DataStructure.figures.white_pawn:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_pawn_white;
                                             break;
-                                        case (int)figures.black_pawn:
+                                        case (int)DataStructure.figures.black_pawn:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_pawn_white;
                                             break;
-                                        case (int)figures.white_rock:
+                                        case (int)DataStructure.figures.white_rock:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_rock_white;
                                             break;
-                                        case (int)figures.black_rock:
+                                        case (int)DataStructure.figures.black_rock:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_rock_white;
                                             break;
-                                        case (int)figures.white_knight:
+                                        case (int)DataStructure.figures.white_knight:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_knight_white;
                                             break;
-                                        case (int)figures.black_knight:
+                                        case (int)DataStructure.figures.black_knight:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_knight_white;
                                             break;
-                                        case (int)figures.white_bishop:
+                                        case (int)DataStructure.figures.white_bishop:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_bishop_white;
                                             break;
-                                        case (int)figures.black_bishop:
+                                        case (int)DataStructure.figures.black_bishop:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_bishop_white;
                                             break;
-                                        case (int)figures.white_queen:
+                                        case (int)DataStructure.figures.white_queen:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_queen_white;
                                             break;
-                                        case (int)figures.black_queen:
+                                        case (int)DataStructure.figures.black_queen:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_queen_white;
                                             break;
-                                        case (int)figures.white_king:
+                                        case (int)DataStructure.figures.white_king:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_king_white;
                                             break;
-                                        case (int)figures.black_king:
+                                        case (int)DataStructure.figures.black_king:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_King_white;
                                             break;
                                         default:
@@ -553,40 +545,40 @@ namespace ChessGame
                                 {
                                     switch (boardMatrix[p.i, p.j])
                                     {
-                                        case (int)figures.white_pawn:
+                                        case (int)DataStructure.figures.white_pawn:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_pawn_brown;
                                             break;
-                                        case (int)figures.black_pawn:
+                                        case (int)DataStructure.figures.black_pawn:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_pawn_brown;
                                             break;
-                                        case (int)figures.white_rock:
+                                        case (int)DataStructure.figures.white_rock:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_rock_brown;
                                             break;
-                                        case (int)figures.black_rock:
+                                        case (int)DataStructure.figures.black_rock:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_rock_brown;
                                             break;
-                                        case (int)figures.white_knight:
+                                        case (int)DataStructure.figures.white_knight:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_knight_brown;
                                             break;
-                                        case (int)figures.black_knight:
+                                        case (int)DataStructure.figures.black_knight:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_knight_brown;
                                             break;
-                                        case (int)figures.white_bishop:
+                                        case (int)DataStructure.figures.white_bishop:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_bishop_brown;
                                             break;
-                                        case (int)figures.black_bishop:
+                                        case (int)DataStructure.figures.black_bishop:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_bishop_brown;
                                             break;
-                                        case (int)figures.white_queen:
+                                        case (int)DataStructure.figures.white_queen:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_queen_brown;
                                             break;
-                                        case (int)figures.black_queen:
+                                        case (int)DataStructure.figures.black_queen:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_queen_brown;
                                             break;
-                                        case (int)figures.white_king:
+                                        case (int)DataStructure.figures.white_king:
                                             listOfControllers[k].Image = Properties.Resources.selected_white_king_brown;
                                             break;
-                                        case (int)figures.black_king:
+                                        case (int)DataStructure.figures.black_king:
                                             listOfControllers[k].Image = Properties.Resources.selected_black_King_brown;
                                             break;
                                         default:
