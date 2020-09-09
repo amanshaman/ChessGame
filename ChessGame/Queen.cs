@@ -3,35 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessGame.Model;
 
 namespace ChessGame
 {
-    static class Queen
+    class Queen : IFigureMoves
     {
-        public static List<DataStructure.point> FindPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
+        public List<DataStructure.Point> FindPossibleMoves(DataStructure.Point possition, int[,] boardMatrix)
         {
-            if (DataStructure.color.white == pieceColor)
+            if (DataStructure.Color.white == EnvironmentVariables.Player)
             {
                 return FindMovesWhite(possition, boardMatrix);
             }
             else return FindMovesBlack(possition, boardMatrix);
         }
 
-        static List<DataStructure.point> FindMovesWhite(DataStructure.point possition, int[,] boardMatrix)
+        static List<DataStructure.Point> FindMovesWhite(DataStructure.Point possition, int[,] boardMatrix)
         {
-            List<DataStructure.point> possiblePossitions = new List<DataStructure.point>();
+            List<DataStructure.Point> possiblePossitions = new List<DataStructure.Point>();
 
-            DataStructure.point p;
+            DataStructure.Point p;
             for (int i = possition.i - 1; i > -1; i--)
             {
-                p = new DataStructure.point(i, possition.j);
+                p = new DataStructure.Point(i, possition.j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -40,14 +41,14 @@ namespace ChessGame
             }
             for (int i = possition.i + 1; i < 8; i++)
             {
-                p = new DataStructure.point(i, possition.j);
+                p = new DataStructure.Point(i, possition.j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -56,14 +57,14 @@ namespace ChessGame
             }
             for (int j = possition.j - 1; j > -1; j--)
             {
-                p = new DataStructure.point(possition.i, j);
+                p = new DataStructure.Point(possition.i, j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -72,14 +73,14 @@ namespace ChessGame
             }
             for (int j = possition.j + 1; j < 8; j++)
             {
-                p = new DataStructure.point(possition.i, j);
+                p = new DataStructure.Point(possition.i, j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -93,14 +94,14 @@ namespace ChessGame
                 int j = possition.j - 1;
                 while (i > -1 && j > -1)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -113,14 +114,14 @@ namespace ChessGame
                 j = possition.j + 1;
                 while (i > -1 && j < 8)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -133,14 +134,14 @@ namespace ChessGame
                 j = possition.j - 1;
                 while (i < 8 && j > -1)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -153,14 +154,14 @@ namespace ChessGame
                 j = possition.j + 1;
                 while (i < 8 && j < 8)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -177,21 +178,21 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        static List<DataStructure.point> FindMovesBlack(DataStructure.point possition, int[,] boardMatrix)
+        static List<DataStructure.Point> FindMovesBlack(DataStructure.Point possition, int[,] boardMatrix)
         {
-            List<DataStructure.point> possiblePossitions = new List<DataStructure.point>();
+            List<DataStructure.Point> possiblePossitions = new List<DataStructure.Point>();
 
-            DataStructure.point p;
+            DataStructure.Point p;
             for (int i = possition.i - 1; i > -1; i--)
             {
-                p = new DataStructure.point(i, possition.j);
+                p = new DataStructure.Point(i, possition.j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -200,14 +201,14 @@ namespace ChessGame
             }
             for (int i = possition.i + 1; i < 8; i++)
             {
-                p = new DataStructure.point(i, possition.j);
+                p = new DataStructure.Point(i, possition.j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -216,14 +217,14 @@ namespace ChessGame
             }
             for (int j = possition.j - 1; j > -1; j--)
             {
-                p = new DataStructure.point(possition.i, j);
+                p = new DataStructure.Point(possition.i, j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -232,14 +233,14 @@ namespace ChessGame
             }
             for (int j = possition.j + 1; j < 8; j++)
             {
-                p = new DataStructure.point(possition.i, j);
+                p = new DataStructure.Point(possition.i, j);
                 if (Validation.IsEmpty(p, boardMatrix))
                 {
                     possiblePossitions.Add(p);
                 }
                 else
                 {
-                    if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                    if (Validation.IsOpponent(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
@@ -253,14 +254,14 @@ namespace ChessGame
                 int j = possition.j - 1;
                 while (i > -1 && j > -1)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -273,14 +274,14 @@ namespace ChessGame
                 j = possition.j + 1;
                 while (i > -1 && j < 8)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -293,14 +294,14 @@ namespace ChessGame
                 j = possition.j - 1;
                 while (i < 8 && j > -1)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }
@@ -313,14 +314,14 @@ namespace ChessGame
                 j = possition.j + 1;
                 while (i < 8 && j < 8)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (Validation.IsEmpty(p, boardMatrix))
                     {
                         possiblePossitions.Add(p);
                     }
                     else
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
                             possiblePossitions.Add(p);
                         }

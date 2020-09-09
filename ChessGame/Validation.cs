@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ChessGame.Model;
 
 namespace ChessGame
 {
@@ -14,7 +15,7 @@ namespace ChessGame
         /// </summary>
         /// <param name="possition">Position to move.</param>
         /// <returns></returns>
-        public static bool IsEmpty(DataStructure.point possition, int[,] boardMatrix)
+        public static bool IsEmpty(DataStructure.Point possition, int[,] boardMatrix)
         {
             try
             {
@@ -36,7 +37,7 @@ namespace ChessGame
         /// </summary>
         /// <param name="possition">position to be validated</param>
         /// <returns></returns>
-        public static bool IsValidPosition(DataStructure.point possition)
+        public static bool IsValidPosition(DataStructure.Point possition)
         {
             try
             {
@@ -57,12 +58,13 @@ namespace ChessGame
             return true;
         }
 
-        public static bool IsOpponent(DataStructure.point possition, int color, int[,] boardMatrix)
+        public static bool IsOpponent(DataStructure.Point possition, int[,] boardMatrix)
         {
             try
             {
                 //if (int)color % 2 != 0 it means its 1 therefore an odd number = white.
-                if (color == (int)DataStructure.color.white)
+                //if (color == (int)DataStructure.Color.white)
+                if (EnvironmentVariables.Player == DataStructure.Color.white)
                 {
                     //than if value on the possition is equal to 0 (even number) than its black and can be kicked out
                     //value needs to be bigger than 0 as it is empty value.
@@ -95,9 +97,9 @@ namespace ChessGame
         /// <param name="possiblePossitions">list of x,y coordinates</param>
         /// <param name="selectedField">one x,y coordinate. </param>
         /// <returns>true/false based if selectedfield x,y coordinate is in the list of possiblePossitions coordinates</returns>
-        public static bool IsItHighlightedField(List<DataStructure.point> possiblePossitions, DataStructure.point selectedField)
+        public static bool IsItHighlightedField(List<DataStructure.Point> possiblePossitions, DataStructure.Point selectedField)
         {
-            foreach (DataStructure.point p in possiblePossitions)
+            foreach (DataStructure.Point p in possiblePossitions)
             {
                 if (p.i == selectedField.i && p.j == selectedField.j)
                 {
@@ -113,27 +115,27 @@ namespace ChessGame
         /// <param name="selectedField">x,y coordinates for selected field</param>
         /// <param name="boardMatrix">matrix itself</param>
         /// <returns>Color of the selected figure, or that no figure was selected (empty)</returns>
-        public static DataStructure.color FigureColor(DataStructure.point selectedField, int[,] boardMatrix)
+        public static DataStructure.Color FigureColor(DataStructure.Point selectedField, int[,] boardMatrix)
         {
             if (boardMatrix[selectedField.i, selectedField.j] == 0)
             {
-                return DataStructure.color.empty;
+                return DataStructure.Color.empty;
             }
-            if (boardMatrix[selectedField.i, selectedField.j] % 2 == (int)DataStructure.color.white)
+            if (boardMatrix[selectedField.i, selectedField.j] % 2 == (int)DataStructure.Color.white)
             {
-                return DataStructure.color.white;
+                return DataStructure.Color.white;
             }
             else
             {
-                return DataStructure.color.black;
+                return DataStructure.Color.black;
             }
         }
 
-        public static bool IsOpponent(DataStructure.point enemyPossition, DataStructure.point allyPossition, int[,] boardMatrix)
+        public static bool IsOpponent(DataStructure.Point enemyPossition, DataStructure.Point allyPossition, int[,] boardMatrix)
         {
             try
             {
-                if (boardMatrix[enemyPossition.i,enemyPossition.j] != (int)DataStructure.figures.empty)
+                if (boardMatrix[enemyPossition.i,enemyPossition.j] != (int)DataStructure.Figures.empty)
                 {
                     if (boardMatrix[enemyPossition.i,enemyPossition.j] % 2 != boardMatrix[allyPossition.i,allyPossition.j] % 2)
                     {

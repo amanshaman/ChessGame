@@ -8,26 +8,26 @@ namespace ChessGame
 {
     static class DataStructure
     {
-        public struct point
+        public struct Point
         {
             public int i;
             public int j;
 
-            public point(int i, int j)
+            public Point(int i, int j)
             {
                 this.i = i;
                 this.j = j;
             }
         }
 
-        public enum color
+        public enum Color
         {
             black,
             white,
             empty
         }
 
-        public enum figures
+        public enum Figures
         {
             empty = 0,
             white_pawn = 1,

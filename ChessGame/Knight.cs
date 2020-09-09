@@ -3,86 +3,87 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessGame.Model;
 
 namespace ChessGame
 {
-    static class Knight
+    class Knight : IFigureMoves
     {
-        public static List<DataStructure.point> FindPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
+        public List<DataStructure.Point> FindPossibleMoves(DataStructure.Point possition, int[,] boardMatrix)
         {
-            if (DataStructure.color.white == pieceColor)
+            if (DataStructure.Color.white == EnvironmentVariables.Player)
             {
                 return FindMovesWhite(possition, boardMatrix);
             }
             else return FindMovesBlack(possition, boardMatrix);
         }
 
-        static List<DataStructure.point> FindMovesWhite(DataStructure.point possition, int[,] boardMatrix)
+        static List<DataStructure.Point> FindMovesWhite(DataStructure.Point possition, int[,] boardMatrix)
         {
-            List<DataStructure.point> possiblePossitions = new List<DataStructure.point>();
+            List<DataStructure.Point> possiblePossitions = new List<DataStructure.Point>();
 
-            DataStructure.point p;
+            DataStructure.Point p;
 
-            p = new DataStructure.point(possition.i+2, possition.j-1);
+            p = new DataStructure.Point(possition.i+2, possition.j-1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i+1, possition.j-2);
+            p = new DataStructure.Point(possition.i+1, possition.j-2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i-1, possition.j-2);
+            p = new DataStructure.Point(possition.i-1, possition.j-2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i-2, possition.j-1);
+            p = new DataStructure.Point(possition.i-2, possition.j-1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i-2, possition.j+1);
+            p = new DataStructure.Point(possition.i-2, possition.j+1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i-1, possition.j+2);
+            p = new DataStructure.Point(possition.i-1, possition.j+2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i+1, possition.j+2);
+            p = new DataStructure.Point(possition.i+1, possition.j+2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i+2, possition.j+1);
+            p = new DataStructure.Point(possition.i+2, possition.j+1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.white))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.white))
                 {
                     possiblePossitions.Add(p);
                 }
@@ -90,72 +91,72 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        static List<DataStructure.point> FindMovesBlack(DataStructure.point possition, int[,] boardMatrix)
+        static List<DataStructure.Point> FindMovesBlack(DataStructure.Point possition, int[,] boardMatrix)
         {
-            List<DataStructure.point> possiblePossitions = new List<DataStructure.point>();
+            List<DataStructure.Point> possiblePossitions = new List<DataStructure.Point>();
 
-            DataStructure.point p;
+            DataStructure.Point p;
 
-            p = new DataStructure.point(possition.i + 2, possition.j - 1);
+            p = new DataStructure.Point(possition.i + 2, possition.j - 1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i + 1, possition.j - 2);
+            p = new DataStructure.Point(possition.i + 1, possition.j - 2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i - 1, possition.j - 2);
+            p = new DataStructure.Point(possition.i - 1, possition.j - 2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i - 2, possition.j - 1);
+            p = new DataStructure.Point(possition.i - 2, possition.j - 1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i - 2, possition.j + 1);
+            p = new DataStructure.Point(possition.i - 2, possition.j + 1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i - 1, possition.j + 2);
+            p = new DataStructure.Point(possition.i - 1, possition.j + 2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i + 1, possition.j + 2);
+            p = new DataStructure.Point(possition.i + 1, possition.j + 2);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
             }
-            p = new DataStructure.point(possition.i + 2, possition.j + 1);
+            p = new DataStructure.Point(possition.i + 2, possition.j + 1);
             if (Validation.IsValidPosition(p))
             {
-                if (KnightCanMove(p, boardMatrix, DataStructure.color.black))
+                if (KnightCanMove(p, boardMatrix, DataStructure.Color.black))
                 {
                     possiblePossitions.Add(p);
                 }
@@ -164,7 +165,7 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        static bool KnightCanMove(DataStructure.point possition, int[,] boardMatrix, DataStructure.color color)
+        static bool KnightCanMove(DataStructure.Point possition, int[,] boardMatrix, DataStructure.Color color)
         {
             if (Validation.IsEmpty(possition, boardMatrix))
             {
@@ -172,7 +173,7 @@ namespace ChessGame
             }
             else
             {
-                if (Validation.IsOpponent(possition, (int)color, boardMatrix))
+                if (Validation.IsOpponent(possition, boardMatrix))
                 {
                     return true;
                 }

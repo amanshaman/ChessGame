@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
-    static class King
+    class King : IFigureMoves
     {
-        private static DataStructure.point whiteKing;
-        private static DataStructure.point blackKing;
+        private static DataStructure.Point whiteKing;
+        private static DataStructure.Point blackKing;
 
-        internal static DataStructure.point WhiteKing { get => whiteKing; set => whiteKing = value; }
-        internal static DataStructure.point BlackKing { get => blackKing; set => blackKing = value; }
+        internal static DataStructure.Point WhiteKing { get => whiteKing; set => whiteKing = value; }
+        internal static DataStructure.Point BlackKing { get => blackKing; set => blackKing = value; }
 
 
 
-        public static List<DataStructure.point> FindPossibleMoves(DataStructure.color pieceColor, DataStructure.point possition, int[,] boardMatrix)
+        public List<DataStructure.Point> FindPossibleMoves(DataStructure.Point possition, int[,] boardMatrix)
         {
             return FindMoves(possition, boardMatrix);
         }
 
-        static List<DataStructure.point> FindMoves(DataStructure.point possition, int[,] boardMatrix)
+        static List<DataStructure.Point> FindMoves(DataStructure.Point possition, int[,] boardMatrix)
         {
-            List<DataStructure.point> possiblePossitions = new List<DataStructure.point>();
+            List<DataStructure.Point> possiblePossitions = new List<DataStructure.Point>();
 
-            DataStructure.point p;
+            DataStructure.Point p;
             try
             {
                 for (int i = possition.i - 1; i <= possition.i + 1; i++)
@@ -35,10 +35,11 @@ namespace ChessGame
                         if (possition.i == i && possition.j == j)
                         {
                             //do nothing
+                            //this is current possition of the king
                         }
                         else
                         {
-                            p = new DataStructure.point(i, j);
+                            p = new DataStructure.Point(i, j);
                             if (Validation.IsValidPosition(p))
                             {
                                 if (Validation.IsEmpty(p, boardMatrix))
@@ -76,16 +77,16 @@ namespace ChessGame
             return possiblePossitions;
         }
 
-        public static bool IsItCheck(DataStructure.point possition , int[,] boardMatrix, DataStructure.color pieceColor)
+        public static bool IsItCheck(DataStructure.Point possition , int[,] boardMatrix, DataStructure.Color pieceColor)
         {
 
             return CheckKing(possition, boardMatrix, (int)pieceColor);
         }
 
-        private static bool CheckHorizontal(DataStructure.point possition, int[,] boardMatrix, int color)
+        private static bool CheckHorizontal(DataStructure.Point possition, int[,] boardMatrix, int color)
         {
             //check for rock / queen to the left
-            DataStructure.point p;
+            DataStructure.Point p;
             for (int i = possition.i-1; i > -1; i--)
             {
                 p.i = i;
@@ -96,13 +97,13 @@ namespace ChessGame
                     {
                         switch (boardMatrix[p.i, p.j])
                         {
-                            case (int)DataStructure.figures.white_rock:
+                            case (int)DataStructure.Figures.white_rock:
                                 return true;
-                            case (int)DataStructure.figures.white_queen:
+                            case (int)DataStructure.Figures.white_queen:
                                 return true;
-                            case (int)DataStructure.figures.black_rock:
+                            case (int)DataStructure.Figures.black_rock:
                                 return true;
-                            case (int)DataStructure.figures.black_queen:
+                            case (int)DataStructure.Figures.black_queen:
                                 return true;
                             default:
                                 break;
@@ -125,13 +126,13 @@ namespace ChessGame
                     {
                         switch (boardMatrix[p.i, p.j])
                         {
-                            case (int)DataStructure.figures.white_rock:
+                            case (int)DataStructure.Figures.white_rock:
                                 return true;
-                            case (int)DataStructure.figures.white_queen:
+                            case (int)DataStructure.Figures.white_queen:
                                 return true;
-                            case (int)DataStructure.figures.black_rock:
+                            case (int)DataStructure.Figures.black_rock:
                                 return true;
-                            case (int)DataStructure.figures.black_queen:
+                            case (int)DataStructure.Figures.black_queen:
                                 return true;
                             default:
                                 break;
@@ -146,10 +147,10 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckVertical(DataStructure.point possition, int[,] boardMatrix, int color)
+        private static bool CheckVertical(DataStructure.Point possition, int[,] boardMatrix, int color)
         {
             //check for rock / queen to the left
-            DataStructure.point p;
+            DataStructure.Point p;
             for (int j = possition.j - 1; j > -1; j--)
             {
                 p.i = possition.i;
@@ -160,13 +161,13 @@ namespace ChessGame
                     {
                         switch (boardMatrix[p.i, p.j])
                         {
-                            case (int)DataStructure.figures.white_rock:
+                            case (int)DataStructure.Figures.white_rock:
                                 return true;
-                            case (int)DataStructure.figures.white_queen:
+                            case (int)DataStructure.Figures.white_queen:
                                 return true;
-                            case (int)DataStructure.figures.black_rock:
+                            case (int)DataStructure.Figures.black_rock:
                                 return true;
-                            case (int)DataStructure.figures.black_queen:
+                            case (int)DataStructure.Figures.black_queen:
                                 return true;
                             default:
                                 break;
@@ -189,13 +190,13 @@ namespace ChessGame
                     {
                         switch (boardMatrix[p.i, p.j])
                         {
-                            case (int)DataStructure.figures.white_rock:
+                            case (int)DataStructure.Figures.white_rock:
                                 return true;
-                            case (int)DataStructure.figures.white_queen:
+                            case (int)DataStructure.Figures.white_queen:
                                 return true;
-                            case (int)DataStructure.figures.black_rock:
+                            case (int)DataStructure.Figures.black_rock:
                                 return true;
-                            case (int)DataStructure.figures.black_queen:
+                            case (int)DataStructure.Figures.black_queen:
                                 return true;
                             default:
                                 break;
@@ -210,30 +211,30 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckDiagonal(DataStructure.point possition, int[,] boardMatrix, int color)
+        private static bool CheckDiagonal(DataStructure.Point possition, int[,] boardMatrix, int color)
         {
             try
             {
-                DataStructure.point p;
+                DataStructure.Point p;
                 //up , left
                 int i = possition.i - 1;
                 int j = possition.j - 1;
                 while (i > -1 && j > -1)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (!Validation.IsEmpty(p, boardMatrix))
                     {
                         if (Validation.IsOpponent(p, possition, boardMatrix))
                         {
                             switch (boardMatrix[p.i, p.j])
                             {
-                                case (int)DataStructure.figures.white_bishop:
+                                case (int)DataStructure.Figures.white_bishop:
                                     return true;
-                                case (int)DataStructure.figures.white_queen:
+                                case (int)DataStructure.Figures.white_queen:
                                     return true;
-                                case (int)DataStructure.figures.black_bishop:
+                                case (int)DataStructure.Figures.black_bishop:
                                     return true;
-                                case (int)DataStructure.figures.black_queen:
+                                case (int)DataStructure.Figures.black_queen:
                                     return true;
                                 default:
                                     break;
@@ -252,20 +253,20 @@ namespace ChessGame
                 j = possition.j + 1;
                 while (i > -1 && j < 8)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (!Validation.IsEmpty(p, boardMatrix))
                     {
                         if (Validation.IsOpponent(p, possition, boardMatrix))
                         {
                             switch (boardMatrix[p.i, p.j])
                             {
-                                case (int)DataStructure.figures.white_bishop:
+                                case (int)DataStructure.Figures.white_bishop:
                                     return true;
-                                case (int)DataStructure.figures.white_queen:
+                                case (int)DataStructure.Figures.white_queen:
                                     return true;
-                                case (int)DataStructure.figures.black_bishop:
+                                case (int)DataStructure.Figures.black_bishop:
                                     return true;
-                                case (int)DataStructure.figures.black_queen:
+                                case (int)DataStructure.Figures.black_queen:
                                     return true;
                                 default:
                                     break;
@@ -284,20 +285,20 @@ namespace ChessGame
                 j = possition.j - 1;
                 while (i < 8 && j > -1)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (!Validation.IsEmpty(p, boardMatrix))
                     {
                         if (Validation.IsOpponent(p, possition, boardMatrix))
                         {
                             switch (boardMatrix[p.i, p.j])
                             {
-                                case (int)DataStructure.figures.white_bishop:
+                                case (int)DataStructure.Figures.white_bishop:
                                     return true;
-                                case (int)DataStructure.figures.white_queen:
+                                case (int)DataStructure.Figures.white_queen:
                                     return true;
-                                case (int)DataStructure.figures.black_bishop:
+                                case (int)DataStructure.Figures.black_bishop:
                                     return true;
-                                case (int)DataStructure.figures.black_queen:
+                                case (int)DataStructure.Figures.black_queen:
                                     return true;
                                 default:
                                     break;
@@ -316,20 +317,20 @@ namespace ChessGame
                 j = possition.j + 1;
                 while (i < 8 && j < 8)
                 {
-                    p = new DataStructure.point(i, j);
+                    p = new DataStructure.Point(i, j);
                     if (!Validation.IsEmpty(p, boardMatrix))
                     {
                         if (Validation.IsOpponent(p, possition, boardMatrix))
                         {
                             switch (boardMatrix[p.i, p.j])
                             {
-                                case (int)DataStructure.figures.white_bishop:
+                                case (int)DataStructure.Figures.white_bishop:
                                     return true;
-                                case (int)DataStructure.figures.white_queen:
+                                case (int)DataStructure.Figures.white_queen:
                                     return true;
-                                case (int)DataStructure.figures.black_bishop:
+                                case (int)DataStructure.Figures.black_bishop:
                                     return true;
-                                case (int)DataStructure.figures.black_queen:
+                                case (int)DataStructure.Figures.black_queen:
                                     return true;
                                 default:
                                     break;
@@ -352,48 +353,48 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckKnight(DataStructure.point possition, int[,] boardMatrix, int color)
+        private static bool CheckKnight(DataStructure.Point possition, int[,] boardMatrix, int color)
         {
             try
             {
-                DataStructure.point p;
+                DataStructure.Point p;
 
-                p = new DataStructure.point(possition.i + 2, possition.j - 1);
+                p = new DataStructure.Point(possition.i + 2, possition.j - 1);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }                
-                p = new DataStructure.point(possition.i + 1, possition.j - 2);
+                p = new DataStructure.Point(possition.i + 1, possition.j - 2);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }
-                p = new DataStructure.point(possition.i - 1, possition.j - 2);
+                p = new DataStructure.Point(possition.i - 1, possition.j - 2);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }
-                p = new DataStructure.point(possition.i - 2, possition.j - 1);
+                p = new DataStructure.Point(possition.i - 2, possition.j - 1);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }
-                p = new DataStructure.point(possition.i - 2, possition.j + 1);
+                p = new DataStructure.Point(possition.i - 2, possition.j + 1);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }
-                p = new DataStructure.point(possition.i - 1, possition.j + 2);
+                p = new DataStructure.Point(possition.i - 1, possition.j + 2);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }
-                p = new DataStructure.point(possition.i + 1, possition.j + 2);
+                p = new DataStructure.Point(possition.i + 1, possition.j + 2);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
                 }
-                p = new DataStructure.point(possition.i + 2, possition.j + 1);
+                p = new DataStructure.Point(possition.i + 2, possition.j + 1);
                 if (HelpCheckKnight(p, possition, boardMatrix))
                 {
                     return true;
@@ -414,7 +415,7 @@ namespace ChessGame
         /// <param name="allyPossition"></param>
         /// <param name="boardMatrix"></param>
         /// <returns></returns>
-        private static bool HelpCheckKnight(DataStructure.point enemyPossition, DataStructure.point allyPossition ,int[,] boardMatrix)
+        private static bool HelpCheckKnight(DataStructure.Point enemyPossition, DataStructure.Point allyPossition ,int[,] boardMatrix)
         {
             if (Validation.IsValidPosition(enemyPossition))
             {
@@ -422,9 +423,9 @@ namespace ChessGame
                 {
                     switch (boardMatrix[enemyPossition.i, enemyPossition.j])
                     {
-                        case (int)DataStructure.figures.white_knight:
+                        case (int)DataStructure.Figures.white_knight:
                             return true;
-                        case (int)DataStructure.figures.black_knight:
+                        case (int)DataStructure.Figures.black_knight:
                             return true;
                         default:
                             break;
@@ -434,56 +435,56 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckPawn(DataStructure.point possition, int[,] boardMatrix, int color)
+        private static bool CheckPawn(DataStructure.Point possition, int[,] boardMatrix, int color)
         {
             try
             {
-                DataStructure.point p;
+                DataStructure.Point p;
 
-                if (color == (int)DataStructure.figures.white_king)
+                if (color == (int)DataStructure.Figures.white_king)
                 {
-                    p = new DataStructure.point(possition.i + 1, possition.j - 1);
+                    p = new DataStructure.Point(possition.i + 1, possition.j - 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
-                            if (boardMatrix[p.i,p.j] == (int)DataStructure.figures.black_pawn)
+                            if (boardMatrix[p.i,p.j] == (int)DataStructure.Figures.black_pawn)
                             {
                                 return true;
                             }
                         }
                     }
-                    p = new DataStructure.point(possition.i + 1, possition.j + 1);
+                    p = new DataStructure.Point(possition.i + 1, possition.j + 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.white, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
-                            if (boardMatrix[p.i, p.j] == (int)DataStructure.figures.black_pawn)
+                            if (boardMatrix[p.i, p.j] == (int)DataStructure.Figures.black_pawn)
                             {
                                 return true;
                             }
                         }
                     }
                 }
-                else if (color == (int)DataStructure.figures.black_king)
+                else if (color == (int)DataStructure.Figures.black_king)
                 {
-                    p = new DataStructure.point(possition.i - 1, possition.j - 1);
+                    p = new DataStructure.Point(possition.i - 1, possition.j - 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
-                            if (boardMatrix[p.i, p.j] == (int)DataStructure.figures.white_pawn)
+                            if (boardMatrix[p.i, p.j] == (int)DataStructure.Figures.white_pawn)
                             {
                                 return true;
                             }
                         }
                     }
-                    p = new DataStructure.point(possition.i - 1, possition.j + 1);
+                    p = new DataStructure.Point(possition.i - 1, possition.j + 1);
                     if (Validation.IsValidPosition(p))
                     {
-                        if (Validation.IsOpponent(p, (int)DataStructure.color.black, boardMatrix))
+                        if (Validation.IsOpponent(p, boardMatrix))
                         {
-                            if (boardMatrix[p.i, p.j] == (int)DataStructure.figures.white_pawn)
+                            if (boardMatrix[p.i, p.j] == (int)DataStructure.Figures.white_pawn)
                             {
                                 return true;
                             }
@@ -499,9 +500,9 @@ namespace ChessGame
             return false;
         }
 
-        private static bool CheckKing(DataStructure.point possition, int[,] boardMatrix, int color)
+        private static bool CheckKing(DataStructure.Point possition, int[,] boardMatrix, int color)
         {
-            DataStructure.point p;
+            DataStructure.Point p;
             
             try
             {
@@ -515,7 +516,7 @@ namespace ChessGame
                         }
                         else
                         {
-                            p = new DataStructure.point(i, j);
+                            p = new DataStructure.Point(i, j);
 
                             if (Validation.IsValidPosition(p))
                             {
@@ -525,9 +526,9 @@ namespace ChessGame
                                     {
                                         switch (boardMatrix[p.i, p.j])
                                         {
-                                            case (int)DataStructure.figures.white_king:
+                                            case (int)DataStructure.Figures.white_king:
                                                 return true;
-                                            case (int)DataStructure.figures.black_king:
+                                            case (int)DataStructure.Figures.black_king:
                                                 return true;
                                             default:
                                                 break;
