@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
-    static class DataStructure
+    public static class DataStructure
     {
         public struct Point
         {

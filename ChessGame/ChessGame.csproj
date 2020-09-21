@@ -239,5 +239,8 @@
   <ItemGroup>
     <None Include="Resources\selected_black_queen_brown%3b.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Testing\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

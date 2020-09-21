@@ -7,7 +7,7 @@ using ChessGame.Model;
 
 namespace ChessGame
 {
-    class Pawn :IFigureMoves
+    public class Pawn :IFigureMoves
     {
         static DataStructure.Point EnPassant;
 

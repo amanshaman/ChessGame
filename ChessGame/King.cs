@@ -16,6 +16,7 @@ namespace ChessGame
 
 
 
+
         public List<DataStructure.Point> FindPossibleMoves(DataStructure.Point possition, int[,] boardMatrix)
         {
             return FindMoves(possition, boardMatrix);
@@ -39,11 +40,13 @@ namespace ChessGame
                         }
                         else
                         {
+                            ///save position into the list of possitions to use later for check analysis.
                             p = new DataStructure.Point(i, j);
                             if (Validation.IsValidPosition(p))
                             {
                                 if (Validation.IsEmpty(p, boardMatrix))
                                 {
+                                    possiblePossitions.Add(p);
                                     //if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
                                     //{
                                     //    possiblePossitions.Add(p);
@@ -55,6 +58,7 @@ namespace ChessGame
                                 }
                                 else if (Validation.IsOpponent(p, possition, boardMatrix))
                                 {
+                                    possiblePossitions.Add(p);
                                     //if (!CheckKing(p, boardMatrix, boardMatrix[possition.i, possition.j] % 2))
                                     //{
                                     //    possiblePossitions.Add(p);

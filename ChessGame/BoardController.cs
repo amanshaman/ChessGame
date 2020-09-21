@@ -211,15 +211,14 @@ namespace ChessGame
 
         DataStructure.Point pickedPiece = new DataStructure.Point();
         private Boolean pickedFlag = false;
+        Pawn pawn = new Pawn();
+        Rock rock = new Rock();
+        Knight knight = new Knight();
+        Bishopcs bishopcs = new Bishopcs();
+        Queen queen = new Queen();
+        King king = new King();
         void SelectUnselectPiece(PictureBox oBox)
         {
-            Pawn pawn = new Pawn();
-            Rock rock = new Rock();
-            Knight knight = new Knight();
-            Bishopcs bishopcs = new Bishopcs();
-            Queen queen = new Queen();
-            King king = new King();
-
             //if figure is picked conteniu.
             if (!pickedFlag)
             {
@@ -297,7 +296,7 @@ namespace ChessGame
             }
             else
             {
-                //if ckicked at the same square as before, "drop figure" and clear highlights
+                //if clicked at the same square as before, "drop figure" and clear highlights
                 if (pickedPiece.i == myCollection[oBox.Name].i && pickedPiece.j == myCollection[oBox.Name].j)
                 {
                     pickedPiece.i = -1;
@@ -464,9 +463,6 @@ namespace ChessGame
                             break;
                     }
                 }
-
-
-
             }
             try
             {                
@@ -578,10 +574,7 @@ namespace ChessGame
                         k++;
                     }
                 }
-
-
             //possiblePossitions = null;
-
             }
             catch (Exception e)
             {
